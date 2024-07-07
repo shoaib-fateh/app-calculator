@@ -19,7 +19,7 @@
 
 .App-header {
   background-color: var(--main);
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   user-select: none;
 }
@@ -99,4 +99,62 @@
 
 .btn.number:hover {
   background-color: var(--btn-operator);
+}
+
+
+.history {
+  background-color: var(--main);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  user-select: none;
+}
+
+.history ul li {
+  color: white;
+  font-size: 20px;
+  padding: 5px;
+  margin-top: 10px;
+  background-color: var(--btn-operator);
+  border-radius: 5px;
+}
+
+.history ul li:hover {
+  cursor: pointer;
+  background-color: var(--btn-number);
+}
+
+
+.history .close {
+  color: red;
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.history .close::before {
+  content: "X";
+}
+
+.history.hide {
+  display: none;
+}
+
+.App footer {
+  border-top: 1px solid var(--primary);
+  background-color: var(--main);
+  min-height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foot--btn {
+  font-size: 14px;
+  background-color: transparent;
+  padding: 0;
 }

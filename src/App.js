@@ -5,8 +5,6 @@ import React, { Component } from "react";
 import Button from "./btn";
 
 // TO DO
-// 1) Fix eval(), if there was any bug.
-// 2) Change * ×, / ÷
 // 3) Add History.
 
 class App extends React.Component {
@@ -23,6 +21,8 @@ class App extends React.Component {
         ["1", "2", "3", "+"],
         ["±", "0", ".", "="],
       ],
+      history: ["2+2=3", "1**9=1"],
+      showhistory: false,
     };
   }
 
@@ -70,6 +70,7 @@ class App extends React.Component {
       this.setState({
         newValueToCalculate: true,
         appresult: res,
+        history: this.state.history + res,
       });
     } catch (error) {
       var SyntaxErrors = [
@@ -95,6 +96,20 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        {this.state.history.map((item) => (
+          <li>{item}</li>
+        ))}
+        <div className={`history ${this.state.showhistory ? "" : "hide"}`}>
+          <div
+            className="close"
+            onClick={() => this.setState({ showhistory: false })}
+          ></div>
+          <ul>
+            {/* {this.state.history.map((item) => (
+              <li>{item}</li>
+            ))} */}
+          </ul>
+        </div>
         <header className="App-header">
           <div className="container">
             <div className="App-input">
@@ -188,6 +203,14 @@ class App extends React.Component {
             </div>
           </div>
         </header>
+        <footer>
+          <button
+            className="btn foot--btn"
+            onClick={() => this.setState({ showhistory: true })}
+          >
+            Show History
+          </button>
+        </footer>
       </div>
     );
   }

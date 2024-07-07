@@ -16,6 +16,13 @@ class App extends React.Component {
       appinput: "",
       appresult: "App Calculator",
       newValueToCalculate: false,
+      keyboard: [
+        ["CE", "C", "D", "÷"],
+        ["7", "8", "9", "×"],
+        ["4", "5", "6", "-"],
+        ["1", "2", "3", "+"],
+        ["±", "0", ".", "="],
+      ],
     };
   }
 
@@ -107,114 +114,76 @@ class App extends React.Component {
             </div>
             <div className="App-btn--row">
               <div className="App-btn--col">
-                <Button
-                  className="btn oprator"
-                  value="CE"
-                  click={() => this.clearEverything()}
-                />
-                <Button
-                  className="btn oprator"
-                  value="C"
-                  click={() => this.clear()}
-                />
-                <Button
-                  className="btn oprator"
-                  value="D"
-                  click={() => this.delete()}
-                />
-                <Button
-                  className="btn oprator"
-                  value="÷"
-                  click={() => this.setValue("/", "÷")}
-                />
+                {this.state.keyboard[0].map((key) => (
+                  <Button
+                    className="btn oprator"
+                    value={key}
+                    click={() => {
+                      if (key == "CE") this.clearEverything();
+                      if (key == "C") this.clear();
+                      if (key == "D") this.delete();
+                      if (key == "÷") this.setValue("/", "÷");
+                    }}
+                  />
+                ))}
               </div>
               <div className="App-btn--col">
-                <Button
-                  className="btn number"
-                  value="7"
-                  click={() => this.setValue(7)}
-                />
-                <Button
-                  className="btn number"
-                  value="8"
-                  click={() => this.setValue(8)}
-                />
-                <Button
-                  className="btn number"
-                  value="9"
-                  click={() => this.setValue(9)}
-                />
-                <Button
-                  className="btn oprator"
-                  value="×"
-                  click={() => this.setValue("*", "×")}
-                />
+                {this.state.keyboard[1].map((key) => (
+                  <Button
+                    className={`btn ${key == "×" ? "oprator" : "number"}`}
+                    value={key}
+                    click={() => {
+                      if (key == "7") this.setValue(7);
+                      if (key == "8") this.setValue(8);
+                      if (key == "9") this.setValue(9);
+                      if (key == "×") this.setValue("*", "×");
+                    }}
+                  />
+                ))}
               </div>
               <div className="App-btn--col">
-                <Button
-                  className="btn number"
-                  value="4"
-                  click={() => this.setValue(4)}
-                />
-                <Button
-                  className="btn number"
-                  value="5"
-                  click={() => this.setValue(5)}
-                />
-                <Button
-                  className="btn number"
-                  value="6"
-                  click={() => this.setValue(6)}
-                />
-                <Button
-                  className="btn oprator"
-                  value="-"
-                  click={() => this.setValue("-")}
-                />
+                {this.state.keyboard[2].map((key) => (
+                  <Button
+                    className={`btn ${key == "-" ? "oprator" : "number"}`}
+                    value={key}
+                    click={() => {
+                      if (key == "4") this.setValue(4);
+                      if (key == "5") this.setValue(5);
+                      if (key == "6") this.setValue(6);
+                      if (key == "-") this.setValue("-");
+                    }}
+                  />
+                ))}
               </div>
               <div className="App-btn--col">
-                <Button
-                  className="btn number"
-                  value="1"
-                  click={() => this.setValue(1)}
-                />
-                <Button
-                  className="btn number"
-                  value="2"
-                  click={() => this.setValue(2)}
-                />
-                <Button
-                  className="btn number"
-                  value="3"
-                  click={() => this.setValue(3)}
-                />
-                <Button
-                  className="btn oprator"
-                  value="+"
-                  click={() => this.setValue("+")}
-                />
+                {this.state.keyboard[3].map((key) => (
+                  <Button
+                    className={`btn ${key == "+" ? "oprator" : "number"}`}
+                    value={key}
+                    click={() => {
+                      if (key == "1") this.setValue(1);
+                      if (key == "2") this.setValue(2);
+                      if (key == "3") this.setValue(3);
+                      if (key == "+") this.setValue("+");
+                    }}
+                  />
+                ))}
               </div>
               <div className="App-btn--col">
-                <Button
-                  className="btn number"
-                  value="±"
-                  click={() => this.setValue("-")}
-                />
-                <Button
-                  className="btn number"
-                  value="0"
-                  click={() => this.setValue(0)}
-                />
-                <Button
-                  className="btn number"
-                  value="."
-                  click={() => this.setValue(".")}
-                />
-                <Button
-                  className="btn oprator eqval"
-                  value="="
-                  click={() => this.eqval()}
-                />
+                {this.state.keyboard[4].map((key) => (
+                  <Button
+                    className={`btn ${
+                      key == "=" ? "oprator eqval" : "number"
+                    } oprator`}
+                    value={key}
+                    click={() => {
+                      if (key == "±") this.setValue("-");
+                      if (key == "0") this.setValue(0);
+                      if (key == ".") this.setValue(".");
+                      if (key == "=") this.eqval();
+                    }}
+                  />
+                ))}
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import Button from "./btn";
 
 // TO DO
-// 1) Fix eval(), if there was any err.
+// 1) Fix eval(), if there was any bug.
 // 2) Change * ×, / ÷
 // 3) Add History.
 
@@ -14,7 +14,6 @@ class App extends React.Component {
     super();
     this.state = {
       appinput: "",
-      appinputshow: "",
       appresult: "App Calculator",
       newValueToCalculate: false,
     };
@@ -24,7 +23,6 @@ class App extends React.Component {
     if (!this.state.newValueToCalculate) {
       this.setState({
         appinput: this.state.appinput + p0,
-        appinputshow: this.state.appinput + p0,
       });
     } else {
       this.setState({
@@ -37,7 +35,6 @@ class App extends React.Component {
   clearEverything() {
     this.setState({
       appinput: "",
-      appinputshow: "",
       appresult: "App Calculator",
     });
   }
@@ -45,28 +42,47 @@ class App extends React.Component {
   clear() {
     this.setState({
       appinput: "",
-      appinputshow: "",
     });
   }
 
   delete() {
     this.setState({
       appinput: this.state.appinput.slice(0, -1),
-      appinputshow: this.state.appinputshow.slice(0, -1),
     });
   }
 
   eqval() {
-    var res = eval(this.state.appinput);
+    try {
+      var appinput = this.state.appinput;
+      var res = eval(appinput);
 
-    if (res == "Infinity") {
-      res = "∞";
+      if (res == "Infinity") {
+        res = "∞";
+      }
+
+      this.setState({
+        newValueToCalculate: true,
+        appresult: res,
+      });
+    } catch (error) {
+      var SyntaxErrors = [
+        "Unexpected token '*'",
+        "Unexpected token '**'",
+        "Unexpected end of input",
+        "Invalid or unexpected token",
+        "Invalid regular expression: missing /",
+        "Invalid left-hand side expression in postfix operation",
+      ];
+
+      SyntaxErrors.forEach((SyntaxError) => {
+        if (error == `SyntaxError: ${SyntaxError}`) {
+          // alert(SyntaxError);
+          this.setState({
+            appresult: SyntaxError,
+          });
+        }
+      });
     }
-
-    this.setState({
-      newValueToCalculate: true,
-      appresult: res,
-    });
   }
 
   render() {
@@ -85,7 +101,7 @@ class App extends React.Component {
               <input
                 type="text"
                 name="appinput"
-                value={this.state.appinputshow}
+                value={this.state.appinput}
                 disabled
               />
             </div>
@@ -179,7 +195,11 @@ class App extends React.Component {
                 />
               </div>
               <div className="App-btn--col">
-                <button className="btn number">±</button>
+                <Button
+                  className="btn number"
+                  value="±"
+                  click={() => this.setValue("-")}
+                />
                 <Button
                   className="btn number"
                   value="0"

@@ -26,7 +26,7 @@ class App extends React.Component {
     };
   }
 
-  setValue(p0, p1) {
+  setValue(p0) {
     if (!this.state.newValueToCalculate) {
       this.setState({
         appinput: this.state.appinput + p0,

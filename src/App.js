@@ -21,7 +21,7 @@ class App extends React.Component {
         ["1", "2", "3", "+"],
         ["±", "0", ".", "="],
       ],
-      history: ["2+2=3", "1**9=1"],
+      history: [],
       showhistory: false,
     };
   }
@@ -67,11 +67,14 @@ class App extends React.Component {
         res = "∞";
       }
 
-      this.setState({
+      this.setState((prevState) => ({
         newValueToCalculate: true,
         appresult: res,
-        history: this.state.history + res,
-      });
+        history: [
+          ...prevState.history,
+          `${this.state.appinput} = ${this.state.appresult}`,
+        ],
+      }));
     } catch (error) {
       var SyntaxErrors = [
         "Unexpected token '*'",
@@ -83,8 +86,7 @@ class App extends React.Component {
       ];
 
       SyntaxErrors.forEach((SyntaxError) => {
-        if (error == `SyntaxError: ${SyntaxError}`) {
-          // alert(SyntaxError);
+        if (error.message.includes(SyntaxError)) {
           this.setState({
             appresult: SyntaxError,
           });
@@ -93,21 +95,30 @@ class App extends React.Component {
     }
   }
 
+  handleHistoryClick(historyItem) {
+    const [appinput, appresult] = historyItem.split(" = ");
+    this.setState({
+      appinput,
+      appresult,
+      newValueToCalculate: true,
+      showhistory: false,
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        {this.state.history.map((item) => (
-          <li>{item}</li>
-        ))}
         <div className={`history ${this.state.showhistory ? "" : "hide"}`}>
           <div
             className="close"
             onClick={() => this.setState({ showhistory: false })}
           ></div>
           <ul>
-            {/* {this.state.history.map((item) => (
-              <li>{item}</li>
-            ))} */}
+            {this.state.history.map((item, index) => (
+              <li key={index} onClick={() => this.handleHistoryClick(item)}>
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
         <header className="App-header">
@@ -124,6 +135,7 @@ class App extends React.Component {
                 type="text"
                 name="appinput"
                 value={this.state.appinput}
+                onChange={this.state.appinput}
                 disabled
               />
             </div>

@@ -49,12 +49,7 @@ class App extends React.Component {
   clear() {
     this.setState({
       appinput: "",
-    });
-  }
-
-  delete() {
-    this.setState({
-      appinput: this.state.appinput.slice(0, -1),
+      newValueToCalculate: false,
     });
   }
 
@@ -67,20 +62,13 @@ class App extends React.Component {
         res = "∞";
       }
 
-      if (
-        this.state.appinput !== "" &&
-        this.state.appresult !== "App Calculator"
-      ) {
+      if (this.state.appinput !== "") {
+        const historyEntry = `${this.state.appinput} = ${res}`;
         this.setState((prevState) => ({
           newValueToCalculate: true,
           appresult: res,
-          history: [...prevState.history, `${this.state.appinput} = ${res}`],
+          history: [...prevState.history, historyEntry],
         }));
-      } else {
-        this.setState({
-          newValueToCalculate: true,
-          appresult: res,
-        });
       }
     } catch (error) {
       var SyntaxErrors = [
@@ -101,7 +89,6 @@ class App extends React.Component {
       });
     }
   }
-
   handleHistoryClick(historyItem) {
     const [appinput, appresult] = historyItem.split(" = ");
     this.setState({

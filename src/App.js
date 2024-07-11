@@ -1,6 +1,5 @@
 import logo from "./logo.svg";
 import "./App.css";
-
 import React, { Component } from "react";
 import Button from "./btn";
 
@@ -43,6 +42,7 @@ class App extends React.Component {
     this.setState({
       appinput: "",
       appresult: "App Calculator",
+      newValueToCalculate: false,
     });
   }
 
@@ -67,14 +67,21 @@ class App extends React.Component {
         res = "∞";
       }
 
-      this.setState((prevState) => ({
-        newValueToCalculate: true,
-        appresult: res,
-        history: [
-          ...prevState.history,
-          `${this.state.appinput} = ${this.state.appresult}`,
-        ],
-      }));
+      if (
+        this.state.appinput !== "" &&
+        this.state.appresult !== "App Calculator"
+      ) {
+        this.setState((prevState) => ({
+          newValueToCalculate: true,
+          appresult: res,
+          history: [...prevState.history, `${this.state.appinput} = ${res}`],
+        }));
+      } else {
+        this.setState({
+          newValueToCalculate: true,
+          appresult: res,
+        });
+      }
     } catch (error) {
       var SyntaxErrors = [
         "Unexpected token '*'",
